@@ -1,0 +1,26 @@
+{
+    "name": "hw10-template-engine",
+    "version": "1.0.0",
+    "description": "Template enginer for employee",
+    "main": "app.js",
+    "directories": {
+        "lib": "lib",
+        "test": "test"
+    },
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/trilambda122/hw10-Template-Engine.git"
+    },
+    "author": "trilambda122",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/trilambda122/hw10-Template-Engine/issues"
+    },
+    "homepage": "https://github.com/trilambda122/hw10-Template-Engine#readme",
+    "dependencies": {
+        "jest": "^26.4.2"
+    }
+}
