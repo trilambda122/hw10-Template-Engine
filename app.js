@@ -19,8 +19,6 @@ function writeJsonFile(data) {
 }
 
 function askQuestions() {
-
-
     inquirer.prompt([{
             name: "employeeType",
             type: 'list',
@@ -40,6 +38,12 @@ function askQuestions() {
             name: 'employeeId',
             type: 'input',
             message: 'What is the employees ID?',
+
+        },
+        {
+            name: 'employeeEmail',
+            type: 'input',
+            message: 'What is the employees Email?',
 
         },
         {
@@ -70,10 +74,28 @@ function askQuestions() {
         }
 
     ]).then(answers => {
-        console.table(answers);
-        writeJsonFile(answers);
-        if (answers.addEmployee) { askQuestions(); }
+        switch (answers.employeeType) {
+            case 'Manager':
+                const m = new manager(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeOfficeNumber);
+                writeJsonFile(m);
+                break;
+            case 'Engineer':
+                const e = new engineer(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeGithub);
+                writeJsonFile(e);
+                break;
+            case 'Intern':
+                const i = new intern(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeSchool);
+                writeJsonFile(i);
+                break;
+            default:
+                console.log("something isnt right here");
+        }
 
+        console.table(answers);
+        // writeJsonFile(answers);
+
+        // ask the questions again to create another employee record
+        if (answers.addEmployee) { askQuestions(); }
 
     });
 }
