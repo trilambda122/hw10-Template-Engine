@@ -1,12 +1,22 @@
 const employee = require('./lib/employee.js');
 const manager = require('./lib/manager.js');
 const engineer = require('./lib/engineer.js');
+const intern = require('./lib/intern.js')
 const inquirer = require('inquirer');
 const fs = require("fs");
 const path = require("path");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputFile = path.join(OUTPUT_DIR, "team.html");
+const outputFile = path.join(OUTPUT_DIR, "data.json");
+
+var data = [];
+
+function addEmployee(object) {
+
+    data.push(object);
+    console.table(data);
+
+}
 
 function writeJsonFile(data) {
 
@@ -24,8 +34,6 @@ function askQuestions() {
             type: 'list',
             message: 'Which type of employee to add?',
             choices: ['Engineer', 'Manager', 'Intern'],
-
-
         },
 
         {
@@ -77,22 +85,23 @@ function askQuestions() {
         switch (answers.employeeType) {
             case 'Manager':
                 const m = new manager(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeOfficeNumber);
-                writeJsonFile(m);
+                addEmployee(m);
                 break;
             case 'Engineer':
                 const e = new engineer(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeGithub);
-                writeJsonFile(e);
+                addEmployee(e);
                 break;
+
             case 'Intern':
                 const i = new intern(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeSchool);
-                writeJsonFile(i);
+                addEmployee(i);
                 break;
             default:
                 console.log("something isnt right here");
         }
 
-        console.table(answers);
-        // writeJsonFile(answers);
+
+
 
         // ask the questions again to create another employee record
         if (answers.addEmployee) { askQuestions(); }
@@ -104,6 +113,7 @@ function run() {
 
     fs.closeSync(fs.openSync(outputFile, 'w'));
     askQuestions();
+
 }
 
 run();
