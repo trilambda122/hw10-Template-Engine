@@ -3,31 +3,24 @@ const manager = require('./lib/manager.js');
 const engineer = require('./lib/engineer.js');
 const intern = require('./lib/intern.js')
 const inquirer = require('inquirer');
+const render = require("./lib/htmlRenderer");
 const fs = require("fs");
 const path = require("path");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputFile = path.join(OUTPUT_DIR, "data.json");
+const outputFile = path.join(OUTPUT_DIR, "team.html");
 
-var data = [];
+// create empty array 
+let data = [];
 
+// function to take the employee record from the inquirer answers and push them into the data array
 function addEmployee(object) {
-
+    object.role = object.getRole();
     data.push(object);
-    console.table(data);
-
 }
 
-function writeJsonFile(data) {
 
-    try {
-        fs.appendFileSync(outputFile, JSON.stringify(data));
-        console.log('The "data to append" was appended to file!');
-    } catch (err) {
-        console.log(err);
-    }
-}
-
+// ask the questions! use the .when property to detirme which questions to ask for which employee type
 function askQuestions() {
     inquirer.prompt([{
             name: "employeeType",
@@ -82,6 +75,7 @@ function askQuestions() {
         }
 
     ]).then(answers => {
+        // create the correct employee type based on what was selected 
         switch (answers.employeeType) {
             case 'Manager':
                 const m = new manager(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeOfficeNumber);
@@ -99,20 +93,24 @@ function askQuestions() {
             default:
                 console.log("something isnt right here");
         }
+        // If user selects "y" ask the questions again to create another employee record
+        if (answers.addEmployee) {
+            askQuestions();
+        } else {
+            // once the user is done added employee records write the output file. 
+            console.table(data);
+            fs.writeFileSync(outputFile, render(data), "utf8");
 
-
-
-
-        // ask the questions again to create another employee record
-        if (answers.addEmployee) { askQuestions(); }
+        }
 
     });
 }
 
 function run() {
-
+    // create empty file
     fs.closeSync(fs.openSync(outputFile, 'w'));
     askQuestions();
+
 
 }
 
