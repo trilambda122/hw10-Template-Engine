@@ -147,5 +147,3 @@ function run() {
 }
 
 run();
-
-// module.exports = { validateEmail, validateDigits, validateNull };
