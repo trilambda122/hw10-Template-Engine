@@ -69,6 +69,7 @@ Please direct any additonal questions to: trilambda122@gmail.com
 
 *SCREEN SHOT 1*![screenshot](screenshots/Screen1.png)
 *SCREEN SHOT 2*![screenshot](screenshots/Screen2.png)
+*OUTPUT*![screenshot](screenshots/Screen3.png)
 
 
 
