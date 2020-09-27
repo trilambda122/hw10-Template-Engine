@@ -1,18 +1,19 @@
+ // import objects
 const employee = require('./lib/employee.js');
 const manager = require('./lib/manager.js');
 const engineer = require('./lib/engineer.js');
 const intern = require('./lib/intern.js')
-    // const validator = require('./lib/validator.js');
+const Validator = require('./lib/validator.js');
+
+// import modules
 const inquirer = require('inquirer');
 const render = require("./lib/htmlRenderer");
-
-
 const fs = require("fs");
 const path = require("path");
 const chalk = require('chalk');
 const figlet = require('figlet');
-const Validator = require('./lib/validator.js');
 
+// set var for file output
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputFile = path.join(OUTPUT_DIR, "team.html");
 
@@ -132,6 +133,7 @@ function askQuestions() {
 }
 
 function run() {
+    // print start  up banner
     console.log(chalk.blueBright(figlet.textSync('Team Builder', {
         font: 'Doom',
         horizontalLayout: 'default',
