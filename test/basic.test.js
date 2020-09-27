@@ -73,12 +73,23 @@ describe("Employee", () => {
             })
         });
 
-        describe("Email string validation test", () => {
+
+
+        describe("Test the null function", () => {
             it("Should have posative test for an email", () => {
-                let email = 'shane@shecom'
+                let str = 'some data'
                 let v = new Validator();
-                const emailTest = v.validateEmail(email);
-                expect(emailTest).toEqual(false);
+                const test = v.validateNull(str);
+                expect(test).toEqual(true);
+            })
+        });
+
+        describe("Test the has a number function", () => {
+            it("Should have posative test for an email", () => {
+                let str = '123'
+                let v = new Validator();
+                const test = v.validateDigits(str);
+                expect(test).toEqual(true);
             })
         });
     });
