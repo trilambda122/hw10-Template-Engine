@@ -16,37 +16,19 @@ const Validator = require('./lib/validator.js');
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputFile = path.join(OUTPUT_DIR, "team.html");
 
-const v = new Validator();
-// create empty array 
+
+// create empty array to store all the user inputed data into.  Also create a blank validator object to validate the users input
 let data = [];
+const v = new Validator();
+
+
 // function to take the employee record from the inquirer answers and push them into the data array
 function addEmployee(object) {
     object.role = object.getRole();
     data.push(object);
 }
 
-function validateDigits(a) {
-    if (isNaN(a)) {
-        console.log(chalk.bold.red('\n\nPlease enter only numbers\n'));
-    } else {
-        return true;
-    }
 
-}
-
-function validateNull(a) {
-    if (a !== '') {
-        return true;
-    } else { console.log(chalk.bold.red('\n\nPlease enter some data to continue\n')); }
-
-}
-
-function validateEmail(email) {
-    var re = /\S+@\S+\.\S+/;
-    if (re.test(email)) {
-        return true;
-    } else { console.log(chalk.bold.red('\n\nPlease enter a valide email address\n')) }
-}
 
 // ask the questions! use the .when property to detirme which questions to ask for which employee type
 function askQuestions() {
@@ -54,7 +36,7 @@ function askQuestions() {
             name: "employeeType",
             type: 'list',
             message: 'Which type of employee to add?',
-            choices: ['Engineer', 'Manager', 'Intern'],
+            choices: ['Manager', 'Engineer', 'Intern'],
         },
 
         {
@@ -128,10 +110,22 @@ function askQuestions() {
         if (answers.addEmployee) {
             askQuestions();
         } else {
-            // once the user is done added employee records write the output file. 
-            console.table(data);
-            fs.writeFileSync(outputFile, render(data), "utf8");
+            // loop through the data and verify there is a manager for the group.
+            let haveManager = false;
+            data.forEach(item => {
+                if (item.getRole() === 'Manager') {
+                    haveManager = true;
+                }
+            });
 
+            // if there is a manager in the group write the output file. Else print a message and allow for user to keep entering employees.
+            if (haveManager) {
+                console.table(data);
+                fs.writeFileSync(outputFile, render(data), "utf8");
+            } else {
+                console.log(chalk.bold.redBright('\n Please add a manager to your group\n Or your going to have chaos\n'));
+                askQuestions();
+            }
         }
 
     });
