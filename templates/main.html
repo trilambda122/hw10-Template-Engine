@@ -6,27 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>My Team</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/c502137733.js"></script>
+
 </head>
 
 <body>
-    <div class="container-fluid">
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h3 class="white-text">MY TEAM</h3>
+                    <p class="grey-text text-lighten-4"></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="container">
         <div class="row">
-            <div class="col-12 jumbotron mb-3 team-heading">
+            <div class="col S12 m6">
+                {{ team }}
+            </div>
+        </div>
+        <!-- <div class="container">
+        <div class="row">
+            <div class="col S12 m4">
                 <h1 class="text-center">My Team</h1>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="team-area col-12 d-flex justify-content-center">
-                {{ team }}
+            <div class="col S12 m6">
+               
             </div>
         </div>
-    </div>
+    </div> -->
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
 </html>

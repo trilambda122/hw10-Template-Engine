@@ -2,23 +2,51 @@ const employee = require('./lib/employee.js');
 const manager = require('./lib/manager.js');
 const engineer = require('./lib/engineer.js');
 const intern = require('./lib/intern.js')
+    // const validator = require('./lib/validator.js');
 const inquirer = require('inquirer');
 const render = require("./lib/htmlRenderer");
+
+
 const fs = require("fs");
 const path = require("path");
+const chalk = require('chalk');
+const figlet = require('figlet');
+const Validator = require('./lib/validator.js');
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputFile = path.join(OUTPUT_DIR, "team.html");
 
+const v = new Validator();
 // create empty array 
 let data = [];
-
 // function to take the employee record from the inquirer answers and push them into the data array
 function addEmployee(object) {
     object.role = object.getRole();
     data.push(object);
 }
 
+function validateDigits(a) {
+    if (isNaN(a)) {
+        console.log(chalk.bold.red('\n\nPlease enter only numbers\n'));
+    } else {
+        return true;
+    }
+
+}
+
+function validateNull(a) {
+    if (a !== '') {
+        return true;
+    } else { console.log(chalk.bold.red('\n\nPlease enter some data to continue\n')); }
+
+}
+
+function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    if (re.test(email)) {
+        return true;
+    } else { console.log(chalk.bold.red('\n\nPlease enter a valide email address\n')) }
+}
 
 // ask the questions! use the .when property to detirme which questions to ask for which employee type
 function askQuestions() {
@@ -33,37 +61,40 @@ function askQuestions() {
             name: 'employeeName',
             type: 'input',
             message: 'What is the employees full name?',
-
+            validate: v.validateNull
         },
         {
             name: 'employeeId',
             type: 'input',
             message: 'What is the employees ID?',
-
+            validate: v.validateDigits
         },
         {
             name: 'employeeEmail',
             type: 'input',
             message: 'What is the employees Email?',
-
+            validate: v.validateEmail
         },
         {
             name: 'employeeOfficeNumber',
             type: 'input',
             message: 'What is the employees officeNumber?',
-            when: function(answers) { return answers.employeeType === 'Manager'; }
+            when: function(answers) { return answers.employeeType === 'Manager'; },
+            validate: v.validateDigits
         },
 
         {
             name: 'employeeGithub',
             type: 'input',
             message: 'What is the employees Github username?',
-            when: function(answers) { return answers.employeeType === 'Engineer'; }
+            when: function(answers) { return answers.employeeType === 'Engineer'; },
+            validate: v.validateNull
         },
         {
             name: 'employeeSchool',
             type: 'input',
             message: 'What school did the intern go to',
+            validate: v.validateNull,
             when: function(answers) { return answers.employeeType === 'Intern'; }
         },
 
@@ -107,6 +138,13 @@ function askQuestions() {
 }
 
 function run() {
+    console.log(chalk.blueBright(figlet.textSync('Team Builder', {
+        font: 'Doom',
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        width: 80,
+        whitespaceBreak: true
+    })));
     // create empty file
     fs.closeSync(fs.openSync(outputFile, 'w'));
     askQuestions();
@@ -115,3 +153,5 @@ function run() {
 }
 
 run();
+
+// module.exports = { validateEmail, validateDigits, validateNull };

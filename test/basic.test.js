@@ -2,6 +2,9 @@ const employee = require('../lib/employee.js');
 const manager = require('../lib/manager.js');
 const engineer = require('../lib/engineer.js');
 const intern = require('../lib/intern.js');
+const validator = require(`../lib/validator.js`);
+const Validator = require('../lib/validator.js');
+
 
 describe("Employee", () => {
     describe("Create Employee", () => {
@@ -58,6 +61,24 @@ describe("Employee", () => {
                 expect(id).toEqual('01');
                 expect(email).toEqual('info@info');
                 expect(school).toEqual('To Cool for School');
+            })
+        });
+
+        describe("Email string validation test", () => {
+            it("Should have posative test for an email", () => {
+                let email = 'shane@shane.com'
+                let v = new Validator();
+                const emailTest = v.validateEmail(email);
+                expect(emailTest).toEqual(true);
+            })
+        });
+
+        describe("Email string validation test", () => {
+            it("Should have posative test for an email", () => {
+                let email = 'shane@shecom'
+                let v = new Validator();
+                const emailTest = v.validateEmail(email);
+                expect(emailTest).toEqual(false);
             })
         });
     });
